@@ -42,7 +42,6 @@ Napi::Boolean SetState(const Napi::CallbackInfo& info)
   
   if (info.Length() < 3) {
     Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
-    // return Napi::Number::New(env, 0);
     return Napi::Boolean::New(env, false);
   }
 
@@ -52,11 +51,9 @@ Napi::Boolean SetState(const Napi::CallbackInfo& info)
 
   XINPUT_VIBRATION vibration;
   ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-  vibration.wLeftMotorSpeed = static_cast<WORD>(left*65535); // use any value between 0-65535 here
-  vibration.wRightMotorSpeed = static_cast<WORD>(right*65535); // use any value between 0-65535 here
+  vibration.wLeftMotorSpeed = left;
+  vibration.wRightMotorSpeed = right;
   dwResult = XInputSetState(i, &vibration);
-
-  // return Napi::Number::New(env, static_cast<WORD>(left*65535));
 
   return Napi::Boolean::New(env, dwResult == ERROR_SUCCESS);
 }
@@ -140,44 +137,6 @@ Napi::Object GetKeystroke(const Napi::CallbackInfo& info)
   
   return result;
 }
-
-// Napi::Object GetCapabilitiesEx(const Napi::CallbackInfo& info)
-// {
-//   Napi::Env env = info.Env();
-//   Napi::Object result = Napi::Object::New(env);
-
-//   struct XINPUT_CAPABILITIES_EX
-//   {
-//       XINPUT_CAPABILITIES Capabilities;
-//       WORD vendorId;
-//       WORD productId;
-//       WORD revisionId;
-//       DWORD a4;
-//   };
-
-//   typedef DWORD(_stdcall* _XInputGetCapabilitiesEx)(DWORD a1, DWORD dwUserIndex, DWORD dwFlags, XINPUT_CAPABILITIES_EX* pCapabilities);
-//   _XInputGetCapabilitiesEx XInputGetCapabilitiesEx;
-
-//   HMODULE moduleHandle = LoadLibrary(TEXT("XInput1_4.dll"));
-//   XInputGetCapabilitiesEx = (_XInputGetCapabilitiesEx)GetProcAddress(moduleHandle, (char*)108);
-  
-//   if (info.Length() < 1) {
-//     Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
-//     return result;
-//   }
-
-//   int i = info[0].ToNumber().Int32Value();
-
-//   XINPUT_CAPABILITIES_EX capsEx;
-//   XInputGetCapabilitiesEx(1, i, 0, &capsEx);
-
-//   result.Set("vendorId", capsEx.vendorId);
-//   result.Set("productId", capsEx.productId);
-//   result.Set("revisionId", capsEx.revisionId);
-//   result.Set("a4", capsEx.a4);
-
-//   return result;
-// }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
