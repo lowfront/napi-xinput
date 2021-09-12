@@ -1,13 +1,20 @@
 {
-  "name": "napi-xinput",
+  "name": "node-xinput",
   "version": "0.0.1",
-  "description": "",
-  "main": "lib/binding.js",
+  "description": "XInput wrapper for Node.js. It aims to implement xinput as similar as possible to the document, and plans to add utilities for Javascript in the future.",
+  "main": "lib/node-xinput.js",
   "scripts": {
-    "start": "node lib/binding",
+    "start": "node lib/node-xinput",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": {
+    "name": "lowfront",
+    "email": "fronterior@hotmail.com"
+  },
+  "homepage": "https://github.com/lowfront/node-xinput",
+  "bugs": {
+    "url": "https://github.com/lowfront/node-xinput/issues"
+  },
   "license": "MIT",
   "dependencies": {
     "node-addon-api": "4.1.0"
